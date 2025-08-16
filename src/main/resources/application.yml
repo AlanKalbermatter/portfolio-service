@@ -15,10 +15,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: "*"
   endpoint:
     health:
-      show-details: when-authorized
+      show-details: always
   health:
     defaults:
       enabled: true
