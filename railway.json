@@ -4,7 +4,7 @@
     "builder": "DOCKERFILE"
   },
   "deploy": {
-    "startCommand": "java -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dspring.profiles.active=railway -Dmanagement.endpoints.web.exposure.include=health,info -Dmanagement.metrics.enable.system=false -Dmanagement.metrics.enable.process=false -jar app.jar",
+    "startCommand": "java -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=railway -Dmanagement.endpoints.web.exposure.include=health,info -Dmanagement.metrics.export.simple.enabled=false -Dmanagement.metrics.enable.all=false -jar app.jar",
     "healthcheckPath": "/actuator/health",
     "healthcheckTimeout": 180,
     "restartPolicyType": "ON_FAILURE",

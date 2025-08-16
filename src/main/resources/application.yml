@@ -24,15 +24,6 @@ management:
       enabled: true
     db:
       enabled: true
-  metrics:
-    enable:
-      system: false
-      process: false
-      jvm: true
-  simple:
-    metrics:
-      export:
-        enabled: true
 
 # CORS Configuration - Parameterized for security
 spring.web.cors:
