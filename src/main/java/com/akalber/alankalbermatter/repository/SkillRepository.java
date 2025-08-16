@@ -8,14 +8,14 @@ import java.util.List;
 
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Long> {
-
+    
     List<Skill> findByCategoryOrderByDisplayOrderAsc(String category);
-
+    
     List<Skill> findByIsFeaturedTrueOrderByDisplayOrderAsc();
-
+    
     List<Skill> findAllByOrderByCategoryAscDisplayOrderAsc();
-
+    
     List<Skill> findByNameContainingIgnoreCase(String name);
-
+    
     List<Skill> findByLevel(Integer level);
 }
