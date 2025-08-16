@@ -5,12 +5,12 @@ services:
     image: postgres:15-alpine
     container_name: portfolio-postgres
     environment:
-      POSTGRES_DB: portfolio_db
-      POSTGRES_USER: portfolio_user
-      POSTGRES_PASSWORD: portfolio_password
+      POSTGRES_DB: ${DB_NAME:-portfolio_db}
+      POSTGRES_USER: ${DB_USERNAME:-portfolio_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-portfolio_password}
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -18,7 +18,7 @@ services:
       - portfolio-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U portfolio_user -d portfolio_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-portfolio_user} -d ${DB_NAME:-portfolio_db}"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -27,12 +27,15 @@ services:
     build: .
     container_name: portfolio-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/portfolio_db
-      - SPRING_DATASOURCE_USERNAME=portfolio_user
-      - SPRING_DATASOURCE_PASSWORD=portfolio_password
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
+      - DB_HOST=postgres
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-portfolio_db}
+      - DB_USERNAME=${DB_USERNAME:-portfolio_user}
+      - DB_PASSWORD=${DB_PASSWORD:-portfolio_password}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:4200,http://localhost:8080}
     ports:
-      - "8080:8080"
+      - "${SERVER_PORT:-8080}:8080"
     depends_on:
       postgres:
         condition: service_healthy
