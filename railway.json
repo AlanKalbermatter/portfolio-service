@@ -4,7 +4,7 @@
     "builder": "DOCKERFILE"
   },
   "deploy": {
-    "startCommand": "java -Dspring.profiles.active=railway -Dmanagement.endpoints.web.exposure.include=* -Dmanagement.endpoint.health.show-details=always -jar app.jar",
+    "startCommand": "java -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dspring.profiles.active=railway -Dmanagement.endpoints.web.exposure.include=health,info -Dmanagement.metrics.enable.system=false -Dmanagement.metrics.enable.process=false -jar app.jar",
     "healthcheckPath": "/actuator/health",
     "healthcheckTimeout": 180,
     "restartPolicyType": "ON_FAILURE",
